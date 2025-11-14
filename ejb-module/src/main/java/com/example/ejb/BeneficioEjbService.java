@@ -1,12 +1,13 @@
 package com.example.ejb;
 
+import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.math.BigDecimal;
 
 @Stateless
-public class BeneficioEjbService {
+public class BeneficioEjbService implements BeneficioEjbServiceRemote {
 
     @PersistenceContext
     private EntityManager em;
