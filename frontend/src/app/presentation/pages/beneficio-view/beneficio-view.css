@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+button {
+  margin: 1rem 0.5rem;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.actions {
+    --mat-button-protected-label-text-color: var(--color-secondary);
+    --mat-button-protected-state-layer-color: var(--color-secondary);
+    --mat-button-protected-ripple-color: color-mix(in srgb, var(--color-secondary) 20%, white);
+}
+
+.btn-edit {
+    color: var(--color-secondary);
+    --mat-icon-button-icon-color: var(--color-secondary);
+    --mat-icon-button-hover-icon-color: var(--color-secondary);
+    --mat-icon-button-state-layer-color: var(--color-secondary);
+    --mat-icon-button-ripple-color: color-mix(in srgb, var(--color-secondary) 20%, white);
+}
+
+.btn-delete {
+    color: var(--color-delete);
+    --mat-icon-button-icon-color: var(--color-delete);
+    --mat-icon-button-hover-icon-color: var(--color-delete);
+    --mat-icon-button-state-layer-color: var(--color-delete);
+    --mat-icon-button-ripple-color: color-mix(in srgb, var(--color-delete) 20%, white);
+}

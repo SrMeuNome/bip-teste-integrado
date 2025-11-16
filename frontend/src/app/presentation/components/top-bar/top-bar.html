@@ -1,0 +1,15 @@
+<nav
+  class="topbar topbar--{{variant}} {{responsive ? 'topbar--responsive' : ''}} {{className}}"
+>
+  <div class="topbar__wrapper topbar__wrapper--left {{leftClass}}">
+    <ng-content select="[slot=left]"></ng-content>
+  </div>
+
+  <div class="topbar__wrapper topbar__wrapper--middle {{centerClass}}">
+    <ng-content select="[slot=center]"></ng-content>
+  </div>
+
+  <div class="topbar__wrapper topbar__wrapper--right {{rightClass}}">
+    <ng-content select="[slot=right]"></ng-content>
+  </div>
+</nav>

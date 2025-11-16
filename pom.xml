@@ -6,6 +6,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>domain-module</module>
+        <module>persistence-module</module>
         <module>backend-module</module>
         <module>ejb-module</module>
     </modules>

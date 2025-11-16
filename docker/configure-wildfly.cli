@@ -1,0 +1,34 @@
+embed-server --std-out=echo --server-config=standalone.xml
+
+# --- instalar driver PostgreSQL ---
+module add \
+  --name=org.postgresql \
+  --resources=/opt/jboss/postgresql.jar \
+  --dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=postgresql:add(\
+driver-name=postgresql,\
+driver-module-name=org.postgresql,\
+driver-class-name=org.postgresql.Driver)
+
+# --- datasource JTA ---
+data-source add \
+  --name=BeneficioDS \
+  --jndi-name=java:/BeneficioDS \
+  --driver-name=postgresql \
+  --connection-url=jdbc:postgresql://host.docker.internal:5432/bit_teste \
+  --user-name=postgres \
+  --password=postgres \
+  --enabled=true
+
+# --- ativar remoting ---
+/subsystem=remoting:add()
+/subsystem=remoting/endpoint=configuration:add()
+/subsystem=remoting/http-connector=http-remoting-connector:add(\
+connector-ref=default,\
+protocol=http-remoting)
+
+# habilitar http listener do undertow
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=enabled,value=true)
+
+stop-embedded-server

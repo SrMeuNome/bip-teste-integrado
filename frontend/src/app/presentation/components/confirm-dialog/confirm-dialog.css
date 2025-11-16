@@ -1,0 +1,18 @@
+.btn-excluir {
+    color: var(--color-warning);
+    --mat-icon-button-icon-color: var(--color-warning);
+    --mat-icon-button-hover-icon-color: var(--color-warning);
+    --mat-icon-button-state-layer-color: var(--color-warning);
+    --mat-button-text-state-layer-color: var(--color-warning);
+    --mat-button-text-ripple-color: var(--color-warning);
+    --mat-button-protected-ripple-color: color-mix(in srgb, var(--color-warning) 20%, white);
+}
+
+.btn-cancel {
+    color: var(--color-secondary);
+    --mat-icon-button-icon-color: var(--color-secondary);
+    --mat-icon-button-hover-icon-color: var(--color-secondary);
+    --mat-icon-button-state-layer-color: var(--color-secondary);
+    --mat-button-text-state-layer-color: var(--color-secondary);
+    --mat-button-text-ripple-color: color-mix(in srgb, var(--color-secondary) 20%, white);
+}

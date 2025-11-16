@@ -1,20 +1,20 @@
 package com.example.ejb;
 
-import jakarta.ejb.Remote;
+import com.example.persistence.repository.jpa.entity.BeneficioEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.math.BigDecimal;
 
-@Stateless
+@Stateless(name = "BeneficioEjbService")
 public class BeneficioEjbService implements BeneficioEjbServiceRemote {
 
     @PersistenceContext
     private EntityManager em;
 
     public void transfer(Long fromId, Long toId, BigDecimal amount) {
-        Beneficio from = em.find(Beneficio.class, fromId);
-        Beneficio to   = em.find(Beneficio.class, toId);
+        BeneficioEntity from = em.find(BeneficioEntity.class, fromId);
+        BeneficioEntity to   = em.find(BeneficioEntity.class, toId);
 
         // BUG: sem validações, sem locking, pode gerar saldo negativo e lost update
         from.setValor(from.getValor().subtract(amount));

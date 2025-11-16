@@ -1,0 +1,145 @@
+<div class="container">
+    <mat-card>
+    <mat-card-header>
+        <mat-card-title>
+        <div class="header-title">
+            <button mat-icon-button (click)="voltar()" class="back-button">
+            <mat-icon>arrow_back</mat-icon>
+            </button>
+            <h1>Transferir Benefício</h1>
+        </div>
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        @if(loading){
+            <div class="loading-container">
+                <mat-spinner></mat-spinner>
+                <p>Carregando benefícios...</p>
+            </div>
+        }
+        
+        @if(!loading){
+            <form [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+                <div class="transfer-info">
+                    <mat-icon class="info-icon">info</mat-icon>
+                    <p>Selecione o benefício de origem, o benefício de destino e o valor a ser transferido.</p>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Benefício de Origem</mat-label>
+                    <mat-select formControlName="fromId" placeholder="Selecione o benefício de origem">
+                        @for(beneficio of beneficios; track beneficio) {
+                            <mat-option [value]="beneficio.id">
+                                {{ beneficio.nome }} - R$ {{ beneficio.valor | number:'1.2-2' }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon matPrefix>account_balance_wallet</mat-icon>
+                    @if(transferForm.get('fromId')?.hasError('required')){
+                        <mat-error>
+                            Benefício de origem é obrigatório
+                        </mat-error>
+                    }
+                    </mat-form-field>
+                </div>
+
+                <div class="transfer-arrow">
+                    <mat-icon>arrow_downward</mat-icon>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Benefício de Destino</mat-label>
+                    <mat-select formControlName="toId" placeholder="Selecione o benefício de destino">
+                        @for(beneficio of beneficiosDestino; track beneficio) {
+                            <mat-option [value]="beneficio.id">
+                                {{ beneficio.nome }} - R$ {{ beneficio.valor | number:'1.2-2' }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                    <mat-icon matPrefix>account_balance</mat-icon>
+                    @if(transferForm.get('toId')?.hasError('required')){
+                        <mat-error>
+                            Benefício de destino é obrigatório
+                        </mat-error>
+                    }
+                    @if(transferForm.get('toId')?.hasError('sameAccount')){
+                        <mat-error>
+                            Benefício de destino deve ser diferente do de origem
+                        </mat-error>
+                    }
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Valor da Transferência</mat-label>
+                    <input 
+                        matInput 
+                        type="number" 
+                        formControlName="amount" 
+                        placeholder="0.00"
+                        step="0.01">
+                    <mat-icon matPrefix>attach_money</mat-icon>
+                    @if(transferForm.get('amount')?.hasError('required')){
+                        <mat-error>
+                            Valor é obrigatório
+                        </mat-error>
+                    }
+                    @if(transferForm.get('amount')?.hasError('min')){
+                        <mat-error>
+                            Valor deve ser maior que 0
+                        </mat-error>
+                    }
+                    @if(transferForm.get('amount')?.hasError('insufficientFunds')){
+                        <mat-error>
+                            Saldo insuficiente no benefício de origem
+                        </mat-error>
+                    }
+                    </mat-form-field>
+                </div>
+
+                @if(showSummary) {
+                    <div class="summary-card">
+                        <h3>Resumo da Transferência</h3>
+                        <div class="summary-item">
+                        <span class="summary-label">De:</span>
+                        <span class="summary-value">{{ getSelectedBeneficioName('from') }}</span>
+                        </div>
+                        <div class="summary-item">
+                        <span class="summary-label">Para:</span>
+                        <span class="summary-value">{{ getSelectedBeneficioName('to') }}</span>
+                        </div>
+                        <div class="summary-item highlight">
+                        <span class="summary-label">Valor:</span>
+                        <span class="summary-value">R$ {{ transferForm.get('amount')?.value | number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+                }
+
+                <div class="form-actions">
+                    <button 
+                        mat-stroked-button 
+                        type="button" 
+                        (click)="voltar()"
+                        [disabled]="submitting">
+                        <mat-icon>close</mat-icon>
+                        Cancelar
+                    </button>
+                    
+                    <button 
+                        mat-raised-button 
+                        color="primary" 
+                        type="submit"
+                        [disabled]="transferForm.invalid || submitting">
+                        <mat-icon>{{ submitting ? 'hourglass_empty' : 'swap_horiz' }}</mat-icon>
+                        {{ submitting ? 'Transferindo...' : 'Transferir' }}
+                    </button>
+                </div>
+            </form>
+        }
+    </mat-card-content>
+    </mat-card>
+</div>

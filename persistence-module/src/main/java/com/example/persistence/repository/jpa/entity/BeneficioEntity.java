@@ -1,11 +1,12 @@
-package com.example.ejb;
+package com.example.persistence.repository.jpa.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "BENEFICIO")
-public class Beneficio {
+public class BeneficioEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

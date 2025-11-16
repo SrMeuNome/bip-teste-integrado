@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  --color-primary: #5249AB;
+  --color-secondary: #7D73FF;
+  --color-tertiary: #ff3fff;
+  --color--background: #fff;
+  --color-shadow: rgba(0, 0, 0, 0.07);
+  --color-error: #ce6a6a;
+  --color-main-text-color: #fff;
+  --color-delete: #ce6a6a;
+  --color-warning: #e62828;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,38 @@
+embed-server --std-out=echo --server-config=standalone.xml
+
+echo ===== Instalando driver PostgreSQL =====
+
+module add \
+  --name=org.postgresql \
+  --resources=D:/PostgreDrive/postgresql-42.7.8.jar \
+  --dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=postgresql:add(\
+driver-name=postgresql,\
+driver-module-name=org.postgresql,\
+driver-class-name=org.postgresql.Driver)
+
+echo ===== Criando DataSource BeneficioDS =====
+
+data-source add \
+  --name=BeneficioDS \
+  --jndi-name=java:/BeneficioDS \
+  --driver-name=postgresql \
+  --connection-url=jdbc:postgresql://localhost:5432/bit_teste \
+  --user-name=postgres \
+  --password=postgres \
+  --enabled=true
+
+echo ===== Ativando REMOTING =====
+
+/subsystem=remoting:add()
+/subsystem=remoting/endpoint=configuration:add()
+/subsystem=remoting/http-connector=http-remoting-connector:add(\
+connector-ref=default,\
+protocol=http-remoting)
+
+echo ===== Habilitando listener HTTP =====
+
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=enabled, value=true)
+
+stop-embedded-server
