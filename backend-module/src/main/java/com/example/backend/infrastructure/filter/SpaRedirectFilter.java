@@ -26,7 +26,8 @@ public class SpaRedirectFilter implements Filter {
             if (path.startsWith(pathPrefix) ||
                 path.matches(".*\\.[a-zA-Z0-9]+$") ||
                 path.startsWith("/actuator") ||
-                path.startsWith("/error")) {
+                path.startsWith("/error") ||
+                path.startsWith("/swagger-ui")) {
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }

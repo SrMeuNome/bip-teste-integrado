@@ -8,6 +8,8 @@ import com.example.backend.presentation.rest.v1.dto.out.ApiResponse;
 import com.example.backend.presentation.rest.v1.dto.out.BeneficioResponseDTO;
 import com.example.backend.presentation.rest.v1.mapper.BeneficioDTOsMapper;
 import com.example.domain.model.Beneficio;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.util.*;
 @RestController
 @RequestMapping("v1/beneficios")
 @CrossOrigin
+@Tag(name = "Benefício", description = "Gerenciamento de benefícios")
 public class BeneficioController {
 
     private final BeneficioService beneficioService;
@@ -34,7 +37,9 @@ public class BeneficioController {
         this.beneficioDTOsMapper = beneficioDTOsMapper;
     }
 
+
     @GetMapping
+    @Operation(summary = "Lista todos os Benefícios")
     public ResponseEntity<ApiResponse<List<BeneficioResponseDTO>>> listBeneficios() {
         List<BeneficioResponseDTO> beneficiosResponse = beneficioService
                 .findAll()
@@ -51,10 +56,13 @@ public class BeneficioController {
                 .message("Benefícios encontrados com sucesso.")
                 .build();
 
+        log.info("Benefícios encontrados com sucesso.");
+
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Encontra um benefício pelo id")
     public ResponseEntity<ApiResponse<BeneficioResponseDTO>> getBeneficioById (@PathVariable(name = "id") @Valid Long id) {
         Beneficio beneficio = beneficioService.findById(id);
 
@@ -63,10 +71,13 @@ public class BeneficioController {
                 .message("Benefício encontrado com sucesso.")
                 .build();
 
+        log.info("Benefício encontrado com sucesso. ID: {}", id);
+
         return ResponseEntity.ok(beneficiosResponse);
     }
 
     @PostMapping
+    @Operation(summary = "Cria um novo benefício")
     public ResponseEntity<ApiResponse<BeneficioResponseDTO>> createBeneficio(
             @RequestBody @Valid CreateBeneficioDTO createBeneficioDTO
     ) {
@@ -84,6 +95,7 @@ public class BeneficioController {
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualiza um benefício já existente")
     public ResponseEntity<ApiResponse<BeneficioResponseDTO>> updateBeneficio(
             @PathVariable(name = "id") @Valid Long id,
             @RequestBody @Valid UpdateBeneficioDTO updateBeneficioDTO
@@ -102,6 +114,7 @@ public class BeneficioController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete benefícios pelo id")
     public ResponseEntity<ApiResponse<Void>> deleteBeneficio(@PathVariable(name = "id") Long id) {
         beneficioService.delete(id);
 
@@ -116,6 +129,7 @@ public class BeneficioController {
     }
 
     @PostMapping("/transferir")
+    @Operation(summary = "Transfere valor de um benefício para outro")
     public ResponseEntity<ApiResponse<Void>> transferirBeneficio(
             @RequestBody @Valid TransferBeneficioDTO transferDTO
     ) {

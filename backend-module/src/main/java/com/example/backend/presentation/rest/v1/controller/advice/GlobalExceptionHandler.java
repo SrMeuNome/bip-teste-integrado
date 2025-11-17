@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex,
             HttpServletRequest request
     ) {
-        log.error("Validation error in the request [{}]: {}", request.getRequestURI(), ex.getMessage());
+        log.error("Validation error in the request [{}]", request.getRequestURI(), ex);
 
         List<String> errors = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
             ConstraintViolationException ex,
             HttpServletRequest request
     ) {
-        log.error("Constraint violation in the request [{}]: {}", request.getRequestURI(), ex.getMessage());
+        log.error("Validation error in the request [{}]", request.getRequestURI(), ex);
 
         List<String> errors = ex.getConstraintViolations()
                 .stream()
