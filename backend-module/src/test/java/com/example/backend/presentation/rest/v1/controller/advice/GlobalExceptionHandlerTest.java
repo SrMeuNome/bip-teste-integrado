@@ -50,7 +50,6 @@ class GlobalExceptionHandlerTest {
     @Test
     @DisplayName("Deve tratar EntityNotFoundException corretamente")
     void testHandleEntityNotFound() {
-        // CORREÇÃO: parâmetros na ordem correta (message, entityName)
         EntityNotFoundException exception =
                 new EntityNotFoundException("O benefício não foi encontrado", "Beneficio");
 
